@@ -12,6 +12,21 @@
         font-family: monospace;
         white-space: pre-wrap;
         word-wrap: break-word;
+        display: flex;
+        flex-direction: column-reverse; /* Add this line */
+      }
+      .message {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+      }
+      .message-user {
+        font-weight: bold;
+        color: #0066cc;
+      }
+      .message-content {
+        text-align: right;
+        max-width: 70%;
       }
     </style>
   </head>
@@ -22,13 +37,27 @@
 
       function addMessage(message) {
         const messageElement = document.createElement("div");
-        messageElement.textContent = message;
-        commandsDiv.appendChild(messageElement);
-        commandsDiv.scrollTop = commandsDiv.scrollHeight;
+        messageElement.className = 'message';
+        const [user, ...contentParts] = message.split(':');
+        const content = contentParts.join(':').trim();
+        
+        const userSpan = document.createElement("span");
+        userSpan.textContent = user + ':';
+        userSpan.className = 'message-user';
+        
+        const contentSpan = document.createElement("span");
+        contentSpan.textContent = content || '';
+        contentSpan.className = 'message-content';
+        
+        messageElement.appendChild(userSpan);
+        messageElement.appendChild(contentSpan);
+        
+        commandsDiv.insertBefore(messageElement, commandsDiv.firstChild);
+        commandsDiv.scrollTop = 0;
 
         // Keep only the last 1000 messages
         while (commandsDiv.children.length > 1000) {
-          commandsDiv.removeChild(commandsDiv.firstChild);
+          commandsDiv.removeChild(commandsDiv.lastChild);
         }
       }
 
