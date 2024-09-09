@@ -58,7 +58,7 @@
 
             socket.onerror = (error) => {
                 console.error('WebSocket error:', error);
-                addMessage('WebSocket error: ' + error.message);
+                addMessage('WebSocket error: ' + JSON.stringify(error));
             };
 
             socket.onclose = (event) => {

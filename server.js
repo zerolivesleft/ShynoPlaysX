@@ -54,3 +54,5 @@ if (config.channel === 'twitchplayspokemon') {
   console.log("");
 }
 console.log(`Connecting to /${config.channel}..`);
+
+module.exports = { wss };

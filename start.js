@@ -10,10 +10,34 @@ server.listen(PORT, '0.0.0.0', () => {
 function sendLog(message) {
   wss.clients.forEach((client) => {
     if (client.readyState === 1) { // 1 means OPEN
-      client.send(JSON.stringify({ type: 'log', message }));
+      try {
+        client.send(JSON.stringify({ type: 'log', message }));
+      } catch (error) {
+        console.error('Error sending WebSocket message:', error);
+      }
     }
   });
 }
+
+// WebSocket server error handling
+wss.on('error', (error) => {
+  console.error('WebSocket server error:', error);
+});
+
+wss.on('connection', (ws, req) => {
+  console.log(`New WebSocket connection from ${req.socket.remoteAddress}`);
+  
+  ws.on('error', (error) => {
+    console.error('WebSocket client error:', error);
+  });
+
+  ws.on('close', (code, reason) => {
+    console.log(`WebSocket connection closed: ${code} ${reason}`);
+  });
+
+  // Send a test message
+  ws.send(JSON.stringify({ type: 'log', message: 'WebSocket connection established' }));
+});
 
 // Start the Twitch bot server
 const botServer = spawn('node', ['server.js']);
@@ -43,14 +67,4 @@ process.on('SIGINT', () => {
   server.close();
   botServer.kill();
   process.exit();
-});
-
-// Add WebSocket connection handling
-wss.on('connection', (ws) => {
-  console.log('New WebSocket connection');
-  ws.send(JSON.stringify({ type: 'log', message: 'WebSocket connection established' }));
-  
-  ws.on('error', (error) => {
-    console.error('WebSocket client error:', error);
-  });
 });
