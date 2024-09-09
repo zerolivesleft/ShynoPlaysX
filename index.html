@@ -8,7 +8,6 @@
       #commands {
         height: 400px;
         overflow-y: scroll;
-        border: 1px solid #ccc;
         padding: 10px;
         font-family: monospace;
         white-space: pre-wrap;
@@ -17,7 +16,6 @@
     </style>
   </head>
   <body>
-    <h1>Twitch Plays X - Commands</h1>
     <div id="commands"></div>
     <script>
       const commandsDiv = document.getElementById("commands");
@@ -48,7 +46,7 @@
             }
           } catch (error) {
             console.error("Error parsing WebSocket message:", error);
-            addMessage("Error parsing WebSocket message: " + error.message);
+            //addMessage("Error parsing WebSocket message: " + error.message);
           }
         };
 
