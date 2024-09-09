@@ -6,10 +6,6 @@ server.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on http://0.0.0.0:${PORT}`);
 });
 
-wss.on('connection', (ws) => {
-  console.log('WebSocket client connected');
-});
-
 // Start the Twitch bot server
 const botServer = spawn('node', ['server.js']);
 

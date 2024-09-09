@@ -11,6 +11,12 @@
             border: 1px solid #ccc;
             padding: 10px;
         }
+        .command {
+            margin: 5px 0;
+            padding: 5px;
+            background-color: #f0f0f0;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
@@ -22,10 +28,28 @@
 
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            const p = document.createElement('p');
-            p.textContent = `${data.username}: ${data.message}`;
-            commandsDiv.appendChild(p);
+            const commandElement = document.createElement('div');
+            commandElement.className = 'command';
+            commandElement.textContent = `${data.username}: ${data.message}`;
+            commandsDiv.appendChild(commandElement);
             commandsDiv.scrollTop = commandsDiv.scrollHeight;
+
+            // Keep only the last 100 commands
+            while (commandsDiv.children.length > 100) {
+                commandsDiv.removeChild(commandsDiv.firstChild);
+            }
+        };
+
+        socket.onopen = () => {
+            console.log('WebSocket connection established');
+        };
+
+        socket.onerror = (error) => {
+            console.error('WebSocket error:', error);
+        };
+
+        socket.onclose = () => {
+            console.log('WebSocket connection closed');
         };
     </script>
 </body>
