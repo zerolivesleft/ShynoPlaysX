@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitch Plays X - Commands</title>
+    <style>
+        #commands {
+            height: 400px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Twitch Plays X - Commands</h1>
+    <div id="commands"></div>
+    <script>
+        const socket = new WebSocket(`ws://${window.location.host}`);
+        const commandsDiv = document.getElementById('commands');
+
+        socket.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            const p = document.createElement('p');
+            p.textContent = `${data.username}: ${data.message}`;
+            commandsDiv.appendChild(p);
+            commandsDiv.scrollTop = commandsDiv.scrollHeight;
+        };
+    </script>
+</body>
+</html>

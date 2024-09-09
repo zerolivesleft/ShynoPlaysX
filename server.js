@@ -1,6 +1,7 @@
 const tmi = require("tmi.js");
 const keyHandler = require("./keyHandler.js");
 const config = require("./config.js");
+const { wss } = require('./webserver');
 
 // https://github.com/tmijs/tmi.js#tmijs
 // for more options
@@ -27,6 +28,13 @@ client.on("message", function (channel, tags, message, self) {
 
     // send the message to the emulator
     keyHandler.sendKey(message.toLowerCase());
+
+    // broadcast the command to all connected WebSocket clients
+    wss.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ username: tags.username, message: message }));
+      }
+    });
   }
 });
 
