@@ -8,7 +8,7 @@
     "ws": "^8.13.0"
   },
   "scripts": {
-    "start": "node webserver.js & node server.js",
+    "start": "node start.js",
     "lint": "prettier --write *.js",
     "test": "node -e \"require('child_process').exec('python key.py Notepad a');\""
   },
