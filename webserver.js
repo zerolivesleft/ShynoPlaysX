@@ -15,7 +15,26 @@ const server = http.createServer((req, res) => {
   }
 });
 
-const wss = new WebSocket.Server({ noServer: true });
+const wss = new WebSocket.Server({ server });
+
+wss.on('connection', (ws) => {
+  console.log('New WebSocket connection');
+  
+  ws.on('message', (message) => {
+    console.log('Received:', message);
+  });
+
+  ws.on('close', () => {
+    console.log('WebSocket connection closed');
+  });
+
+  ws.on('error', (error) => {
+    console.error('WebSocket error:', error);
+  });
+
+  // Send a test message
+  ws.send(JSON.stringify({ type: 'log', message: 'WebSocket connection established from server' }));
+});
 
 const PORT = process.env.PORT || 3002;
 

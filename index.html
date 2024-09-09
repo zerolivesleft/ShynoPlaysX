@@ -51,18 +51,19 @@
                 }
             };
 
-            socket.onopen = () => {
-                console.log('WebSocket connection established');
+            socket.onopen = (event) => {
+                console.log('WebSocket connection established', event);
                 addMessage('WebSocket connection established');
+                socket.send(JSON.stringify({ type: 'log', message: 'Hello from client' }));
             };
 
             socket.onerror = (error) => {
                 console.error('WebSocket error:', error);
-                addMessage('WebSocket error: ' + JSON.stringify(error));
+                addMessage('WebSocket error: ' + JSON.stringify(error, Object.getOwnPropertyNames(error)));
             };
 
             socket.onclose = (event) => {
-                console.log('WebSocket connection closed:', event.code, event.reason);
+                console.log('WebSocket connection closed:', event);
                 addMessage(`WebSocket connection closed: ${event.code} ${event.reason}`);
                 // Attempt to reconnect after 5 seconds
                 setTimeout(connectWebSocket, 5000);
