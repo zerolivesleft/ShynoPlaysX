@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Twitch Plays X - Commands</title>
     <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
       #commands {
         height: 400px;
         overflow-y: scroll;
         padding: 10px;
-        font-family: monospace;
+        font-family: 'Roboto', sans-serif;
         white-space: pre-wrap;
         word-wrap: break-word;
         display: flex;
@@ -19,14 +21,20 @@
         display: flex;
         justify-content: space-between;
         margin-bottom: 5px;
+        align-items: center;
       }
       .message-user {
-        font-weight: bold;
+        font-weight: 700;
         color: #0066cc;
+        font-size: 1.1em;
+        text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+        letter-spacing: 0.5px;
+        text-transform: capitalize;
       }
       .message-content {
         text-align: right;
         max-width: 70%;
+        font-weight: 400;
       }
     </style>
   </head>
@@ -42,7 +50,7 @@
         const content = contentParts.join(':').trim();
         
         const userSpan = document.createElement("span");
-        userSpan.textContent = user + ':';
+        userSpan.textContent = user; // Removed the colon here
         userSpan.className = 'message-user';
         
         const contentSpan = document.createElement("span");
