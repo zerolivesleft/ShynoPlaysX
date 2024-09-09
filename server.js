@@ -1,6 +1,7 @@
 const tmi = require("tmi.js");
 const keyHandler = require("./keyHandler.js");
 const config = require("./config.js");
+const WebSocket = require('ws');
 const { wss } = require('./webserver');
 
 // https://github.com/tmijs/tmi.js#tmijs

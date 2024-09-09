@@ -1,8 +1,14 @@
 const { spawn } = require('child_process');
-const { wss } = require('./webserver');
+const { wss, server, PORT } = require('./webserver');
 
 // Start the webserver
-require('./webserver');
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+wss.on('connection', (ws) => {
+  console.log('WebSocket client connected');
+});
 
 // Start the Twitch bot server
 const botServer = spawn('node', ['server.js']);
@@ -23,6 +29,7 @@ botServer.on('close', (code) => {
 process.on('SIGINT', () => {
   console.log('Shutting down servers...');
   wss.close();
+  server.close();
   botServer.kill();
   process.exit();
 });

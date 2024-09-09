@@ -15,11 +15,8 @@ const server = http.createServer((req, res) => {
   }
 });
 
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({ noServer: true });
 
 const PORT = process.env.PORT || 3002;
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
 
-module.exports = { wss };
+module.exports = { wss, server, PORT };
