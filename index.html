@@ -43,7 +43,10 @@
                     if (data.type === 'command') {
                         addMessage(`${data.username}: ${data.message}`);
                     } else if (data.type === 'log') {
-                        addMessage(`Log: ${data.message}`);
+                        // Only display server logs, not client logs
+                        if (data.message.startsWith('Bot server:')) {
+                            addMessage(data.message);
+                        }
                     }
                 } catch (error) {
                     console.error('Error parsing WebSocket message:', error);
@@ -53,8 +56,10 @@
 
             socket.onopen = (event) => {
                 console.log('WebSocket connection established', event);
-                addMessage('WebSocket connection established');
-                socket.send(JSON.stringify({ type: 'log', message: 'Hello from client' }));
+                // Remove client-side connection message
+                // addMessage('WebSocket connection established');
+                // Remove the client hello message
+                // socket.send(JSON.stringify({ type: 'log', message: 'Hello from client' }));
             };
 
             socket.onerror = (error) => {
