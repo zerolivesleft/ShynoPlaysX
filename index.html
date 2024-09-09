@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Twitch Plays X - Logs</title>
+    <title>Twitch Plays X - Commands</title>
     <style>
-        #logs {
+        #commands {
             height: 400px;
             overflow-y: scroll;
             border: 1px solid #ccc;
@@ -17,38 +17,59 @@
     </style>
 </head>
 <body>
-    <h1>Twitch Plays X - Logs</h1>
-    <div id="logs"></div>
+    <h1>Twitch Plays X - Commands</h1>
+    <div id="commands"></div>
     <script>
-        const socket = new WebSocket(`ws://${window.location.host}`);
-        const logsDiv = document.getElementById('logs');
+        const commandsDiv = document.getElementById('commands');
 
-        socket.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            if (data.type === 'log') {
-                const logElement = document.createElement('div');
-                logElement.textContent = data.message;
-                logsDiv.appendChild(logElement);
-                logsDiv.scrollTop = logsDiv.scrollHeight;
+        function addMessage(message) {
+            const messageElement = document.createElement('div');
+            messageElement.textContent = message;
+            commandsDiv.appendChild(messageElement);
+            commandsDiv.scrollTop = commandsDiv.scrollHeight;
 
-                // Keep only the last 1000 log entries
-                while (logsDiv.children.length > 1000) {
-                    logsDiv.removeChild(logsDiv.firstChild);
-                }
+            // Keep only the last 1000 messages
+            while (commandsDiv.children.length > 1000) {
+                commandsDiv.removeChild(commandsDiv.firstChild);
             }
-        };
+        }
 
-        socket.onopen = () => {
-            console.log('WebSocket connection established');
-        };
+        function connectWebSocket() {
+            const socket = new WebSocket(`ws://${window.location.host}`);
 
-        socket.onerror = (error) => {
-            console.error('WebSocket error:', error);
-        };
+            socket.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    if (data.type === 'command') {
+                        addMessage(`${data.username}: ${data.message}`);
+                    } else if (data.type === 'log') {
+                        addMessage(`Log: ${data.message}`);
+                    }
+                } catch (error) {
+                    console.error('Error parsing WebSocket message:', error);
+                    addMessage('Error parsing WebSocket message: ' + error.message);
+                }
+            };
 
-        socket.onclose = () => {
-            console.log('WebSocket connection closed');
-        };
+            socket.onopen = () => {
+                console.log('WebSocket connection established');
+                addMessage('WebSocket connection established');
+            };
+
+            socket.onerror = (error) => {
+                console.error('WebSocket error:', error);
+                addMessage('WebSocket error: ' + error.message);
+            };
+
+            socket.onclose = (event) => {
+                console.log('WebSocket connection closed:', event.code, event.reason);
+                addMessage(`WebSocket connection closed: ${event.code} ${event.reason}`);
+                // Attempt to reconnect after 5 seconds
+                setTimeout(connectWebSocket, 5000);
+            };
+        }
+
+        connectWebSocket();
     </script>
 </body>
 </html>

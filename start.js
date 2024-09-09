@@ -44,3 +44,13 @@ process.on('SIGINT', () => {
   botServer.kill();
   process.exit();
 });
+
+// Add WebSocket connection handling
+wss.on('connection', (ws) => {
+  console.log('New WebSocket connection');
+  ws.send(JSON.stringify({ type: 'log', message: 'WebSocket connection established' }));
+  
+  ws.on('error', (error) => {
+    console.error('WebSocket client error:', error);
+  });
+});
