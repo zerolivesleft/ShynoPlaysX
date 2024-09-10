@@ -72,8 +72,18 @@ function sendKey(command) {
     lastTime[key] = newTime;
   }
 
-  for (let i = 0; i < repeat; i++) {
-    pressAndReleaseKey(key);
+  console.log(`Executing command: ${command} (${repeat} times)`);
+
+  sendRepeatedKey(key, repeat);
+}
+
+function sendRepeatedKey(key, repeat) {
+  if (repeat <= 0) return;
+
+  pressAndReleaseKey(key);
+  
+  if (repeat > 1) {
+    setTimeout(() => sendRepeatedKey(key, repeat - 1), config.delay);
   }
 }
 
