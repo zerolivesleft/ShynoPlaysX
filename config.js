@@ -20,8 +20,8 @@ let commands = [
 ];
 
 // Add support for multiple inputs
-let multipleInputs = commands.map(cmd => `${cmd}x\\d+`);
-commands = commands.concat(multipleInputs);
+// let multipleInputs = commands.map(cmd => `${cmd}x\\d+`);
+// commands = commands.concat(multipleInputs);
 
 let filteredCommands = [];
 let throttledCommands = [];

@@ -72,7 +72,6 @@ function sendKey(command) {
     lastTime[key] = newTime;
   }
 
-  console.log(`Executing command: ${command} (${repeat} times)`);
 
   sendRepeatedKey(key, repeat);
 }
