@@ -4,12 +4,19 @@
   "description": "Lets you use IRC to send inputs to a program and stream it, TwitchPlaysPokemon style",
   "version": "0.0.1",
   "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "framer-motion": "^11.5.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "tmi.js": "1.5.0",
     "ws": "^8.13.0"
   },
   "scripts": {
     "start": "node start.js",
-    "lint": "prettier --write *.js",
+    "build": "webpack --mode production",
+    "dev": "webpack serve --mode development",
+    "lint": "prettier --write *.js src/**/*.{js,jsx}",
     "test": "node -e \"require('child_process').exec('python key.py Notepad a');\""
   },
   "repository": {
@@ -17,6 +24,19 @@
     "url": "https://github.com/hzoo/TwitchPlaysX.git"
   },
   "devDependencies": {
-    "prettier": "2.0.5"
+    "@babel/core": "^7.22.5",
+    "@babel/preset-env": "^7.22.5",
+    "@babel/preset-react": "^7.22.5",
+    "autoprefixer": "^10.4.20",
+    "babel-loader": "^9.1.2",
+    "css-loader": "^6.8.1",
+    "html-webpack-plugin": "^5.5.3",
+    "postcss": "^8.4.45",
+    "prettier": "2.0.5",
+    "style-loader": "^3.3.3",
+    "tailwindcss": "^3.4.10",
+    "webpack": "^5.88.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
   }
 }
