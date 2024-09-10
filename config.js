@@ -15,6 +15,8 @@ let commands = [
   "b",
   "l",
   "r",
+  "run",
+  "walk",
 ];
 
 let filteredCommands = [];
