@@ -96,10 +96,10 @@
 
         socket.onerror = (error) => {
           console.error("WebSocket error:", error);
-          addMessage(
-            "WebSocket error: " +
-              JSON.stringify(error, Object.getOwnPropertyNames(error))
-          );
+          // addMessage(
+          //   "WebSocket error: " +
+          //     JSON.stringify(error, Object.getOwnPropertyNames(error))
+          // );
         };
 
         socket.onclose = (event) => {
