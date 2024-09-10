@@ -38,8 +38,10 @@ let defaultKeyMap = config.keymap || {
   b: "b",
   x: "x",
   y: "y",
-  start: "s",
-  select: "e",
+  start: "Enter",
+  select: "BackSpace",
+  l: "l",
+  r: "r",
 };
 
 function sendKey(command) {
