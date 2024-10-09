@@ -52,5 +52,5 @@ module.exports = {
   delay: 100,
 
   // Delay between repeated commands in milliseconds
-  repeatDelay: 200,
+  repeatDelay: 300,
 };
