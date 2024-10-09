@@ -72,13 +72,16 @@ function sendKey(command) {
     lastTime[key] = newTime;
   }
 
-  for (let i = 0; i < repeat; i++) {
-    pressAndReleaseKey(key);
-    if (i < repeat - 1) {
-      // Add delay between repeated commands
-      setTimeout(() => {}, config.repeatDelay);
+  function executeRepeatedCommand(remainingRepeat) {
+    if (remainingRepeat > 0) {
+      pressAndReleaseKey(key);
+      if (remainingRepeat > 1) {
+        setTimeout(() => executeRepeatedCommand(remainingRepeat - 1), config.repeatDelay);
+      }
     }
   }
+
+  executeRepeatedCommand(repeat);
 }
 
 function pressKey(key) {

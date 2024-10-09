@@ -24,8 +24,9 @@ client.on("message", function (channel, tags, message, self) {
 
   if (self) return;
   if (isCorrectChannel && messageMatches) {
-    // print username and message to console
-    console.log(`@${tags.username}: ${message}`);
+    // print username, message, and timestamp to console
+    const timestamp = new Date().toISOString();
+    console.log(`[${timestamp}] @${tags.username}: ${message}`);
 
     // send the message to the emulator
     keyHandler.sendKey(message.toLowerCase());
