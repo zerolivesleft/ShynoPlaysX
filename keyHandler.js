@@ -59,7 +59,7 @@ function sendKey(command) {
   }
 
   // New code to handle repeated commands
-  let [baseCommand, repeat] = command.split('x');
+  let [baseCommand, repeat] = command.split(/x\s*|\s+x\s*/i);
   repeat = parseInt(repeat) || 1;
   repeat = Math.min(repeat, 10); // Limit to 10 repetitions
 
@@ -74,6 +74,10 @@ function sendKey(command) {
 
   for (let i = 0; i < repeat; i++) {
     pressAndReleaseKey(key);
+    if (i < repeat - 1) {
+      // Add delay between repeated commands
+      setTimeout(() => {}, config.repeatDelay);
+    }
   }
 }
 

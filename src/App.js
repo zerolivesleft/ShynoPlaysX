@@ -55,24 +55,25 @@ function App() {
                 <span className="text-green-600 capitalize font-black">
                   {log.username}
                 </span>
-                {["a", "b"].includes(log.command.toLowerCase()) ? (
+                {["a", "b"].includes(log.command.toLowerCase().split(/x\s*|\s+x\s*/i)[0]) ? (
                   <span className="text-emerald-900 font-bold bg-emerald-700 border-2 border-emerald-800 rounded-full p-2 w-8 h-8 flex items-center justify-center">
                     {log.command.toUpperCase()}
                   </span>
-                ) : ["l", "r"].includes(log.command.toLowerCase()) ? (
+                ) : ["l", "r"].includes(log.command.toLowerCase().split(/x\s*|\s+x\s*/i)[0]) ? (
                   <span className="text-emerald-900 font-bold bg-emerald-700 border-2 border-emerald-800 rounded-md p-2 w-8 h-8 flex items-center justify-center">
                     {log.command.toUpperCase()}
                   </span>
-                ) : ["start", "select"].includes(log.command.toLowerCase()) ? (
+                ) : ["start", "select"].includes(log.command.toLowerCase().split(/x\s*|\s+x\s*/i)[0]) ? (
                   <span className="text-emerald-900 font-black bg-emerald-700 border-2 border-emerald-800 rounded-full p-2 px-4 flex items-center justify-center text-xs">
                     {log.command.toUpperCase()}
                   </span>
-                ) : ["up", "down", "left", "right"].includes(log.command.toLowerCase()) ? (
+                ) : ["up", "down", "left", "right"].includes(log.command.toLowerCase().split(/x\s*|\s+x\s*/i)[0]) ? (
                   <span className="text-emerald-900 font-bold bg-emerald-700 border-2 border-emerald-800 rounded-md p-2 w-8 h-8 flex items-center justify-center">
-                    {log.command.toLowerCase() === "up" ? <FontAwesomeIcon icon={faArrowUp} /> : 
-                     log.command.toLowerCase() === "down" ? <FontAwesomeIcon icon={faArrowDown} /> : 
-                     log.command.toLowerCase() === "left" ? <FontAwesomeIcon icon={faArrowLeft} /> : 
+                    {log.command.toLowerCase().startsWith("up") ? <FontAwesomeIcon icon={faArrowUp} /> : 
+                     log.command.toLowerCase().startsWith("down") ? <FontAwesomeIcon icon={faArrowDown} /> : 
+                     log.command.toLowerCase().startsWith("left") ? <FontAwesomeIcon icon={faArrowLeft} /> : 
                      <FontAwesomeIcon icon={faArrowRight} />}
+                    {log.command.match(/x\s*\d+/i) && <sup className="ml-1">{log.command.match(/x\s*(\d+)/i)[1]}</sup>}
                   </span>
                 ) : (
                   <span className="text-emerald-400 font-bold">{log.command}</span>

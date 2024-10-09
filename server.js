@@ -16,7 +16,7 @@ const client = new tmi.client({
 
 const commandRegex =
   config.regexCommands ||
-  new RegExp("^(" + config.commands.join("|") + ")$", "i");
+  new RegExp("^(" + config.commands.join("|") + ")(?:\\s*x\\s*\\d+)?$", "i");
 
 client.on("message", function (channel, tags, message, self) {
   let isCorrectChannel = `#${config.channel}` === channel;
